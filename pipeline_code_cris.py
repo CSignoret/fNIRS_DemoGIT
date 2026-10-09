@@ -34,7 +34,7 @@ def register_montage(raw, snirf_fname):  # CHANGED [C18]: new helper
     oriented (C3 must be on the left, Cz on top).
     """
     with h5py.File(snirf_fname, "r") as f:
-        unit = np.atleast_1d(f["nirs/metaDataTags/LengthUnit"][()])[0].decode
+        unit = np.atleast_1d(f["nirs/metaDataTags/LengthUnit"][()])[0].decode()
         scale = {"mm": 1e-3, "cm": 1e-2, "m": 1.0}[unit]
         probe = f["nirs/probe"]
         src = np.asarray(probe["sourcePos3D"][()], dtype=float)[:, :3] * scale
@@ -71,10 +71,10 @@ snirf_path = "Data/sub-01/nirs/sub-01_task-resting_run-01_nirs.snirf"
 raw = mne.io.read_raw_snirf(snirf_path)
 raw = register_montage(raw, snirf_path)
 
-events = pd.read_csv('sub-01/nirs/sub-01_task-covert_run-01_events.tsv', 
+events = pd.read_csv('Data/sub-01/nirs/sub-01_task-covert_run-01_events.tsv', 
                      sep='\t')
 events = events[events["include"] == 1]
-events.trial_type = events.trial_type.str.replace(pat={" ": "/"})
+events.trial_type = events.trial_type.str.replace(" ", "/")
 annotations = mne.Annotations(events['onset'], 
                               events['duration'], 
                               events['trial_type'])
@@ -322,7 +322,7 @@ def individual_analysis(raw_haemo, plot_design=False):
     return glm_est, design_matrix
 
 # Specify BIDS root folder
-bids_root = "." ### NEED TO UPDATE THIS FOR YOUR SPECIFIC FILE STRUCTURE
+bids_root = "Data/" ### NEED TO UPDATE THIS FOR YOUR SPECIFIC FILE STRUCTURE
 
 # We have 4 data types: events, channels, optodes, and nirs.
 # We will load the nirs, which corresponds to the SNIRF file.
@@ -366,8 +366,8 @@ for subject in ['01', '02', '03', '04', '05']:
     # Load the SNIRF file and convert to optical density
     raw_intensity = mne_bids.read_raw_bids(bids_path=bids_path, verbose=False)
     raw_intensity = register_montage(raw_intensity, bids_path)
-    events = pd.read_csv(f'sub-{subject}/nirs/sub-{subject}_task-{task}_run-{run}_events.tsv', sep='\t')
-    events.trial_type = events.trial_type.str.replace(pat={" ": "/"})
+    events = pd.read_csv(f'Data/sub-{subject}/nirs/sub-{subject}_task-{task}_run-{run}_events.tsv', sep='\t')
+    events.trial_type = events.trial_type.str.replace(" ", "/")
     events = events[events["include"] == 1]
     annotations = mne.Annotations(events['onset'], 
                                   events['duration'], 
