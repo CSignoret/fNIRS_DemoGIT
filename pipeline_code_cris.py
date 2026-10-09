@@ -4,6 +4,7 @@
 Created on Fri Sep 25 10:17:15 2026
 
 @author: crito25 and carsi10
+this script has to be saved in a folder in which we have another folder named Data for the participant data
 """
 
 import os 
@@ -62,10 +63,10 @@ def register_montage(raw, snirf_fname):  # CHANGED [C18]: new helper
     return raw
 
 # To import one subject
-base_dir = '/Users/crito25/Library/CloudStorage/OneDrive-Linköpingsuniversitet'
-dataset = '/Documents/ds007738'
-os.chdir(f'{base_dir}{dataset}')
-snirf_path = "sub-01/nirs/sub-01_task-resting_run-01_nirs.snirf" 
+#base_dir = '/Users/crito25/Library/CloudStorage/OneDrive-Linköpingsuniversitet'
+#dataset = '/Documents/ds007738'
+#os.chdir(f'{base_dir}{dataset}')
+snirf_path = "Data/sub-01/nirs/sub-01_task-resting_run-01_nirs.snirf" 
 raw = mne.io.read_raw_snirf(snirf_path)
 raw = register_montage(raw, snirf_path)
 
