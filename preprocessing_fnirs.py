@@ -4,7 +4,7 @@ Created on Fri Oct 23 13:21:58 2026
 @author: neurogroup
 """
 
-import os 
+import os
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,10 +14,10 @@ import mne_bids
 from nilearn.plotting import plot_design_matrix
 from itertools import compress
 from collections import defaultdict
-from collections import Counter  # CHANGED [C13]: used for the epoch-rejection report
+from collections import Counter  # used for the epoch-rejection report
 from mne_nirs.io.snirf import write_raw_snirf
 from mne.transforms import apply_trans, get_ras_to_neuromag_trans
-import h5py 
+import h5py
 
 # check that we are working in the folder where the script is
 abspath = os.path.abspath(__file__)
@@ -125,10 +125,9 @@ for subject in ['01', '02', '03', '04', '05']: #could also write all_subjects
                                   events['trial_type'])
     raw_intensity.set_annotations(annotations)
     raw_od = mne.preprocessing.nirs.optical_density(raw_intensity)
-    img_od = raw_od.plot(n_channels=len(raw_od.ch_names), duration=500, 
+    raw_od.plot(n_channels=len(raw_od.ch_names), duration=500,
                 show_scrollbars=False)
-   #plt.imsave(f'preprocessed_data/subject_{subject}/optical_density.png', img_od)
-    
+    plt.savefig(f'preprocessed_data/subject_{subject}/optical_density.png')
 
      # Calculate the scalp coupling index (SCI) and mark  #### NEED TO REFERENCE sci_limit SOMEWHERE BEFORE THIS
     # bad quality channels in the data
