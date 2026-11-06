@@ -97,6 +97,7 @@ if not os.path.isdir(preproc_folder):
 # Print output nicely
 pd.set_option('display.max_rows', None)
 pd.options.display.float_format = "{:,.4f}".format
+mne.viz.set_browser_backend("matplotlib")
 
 # Go through data for each subject 
 cha_frames = []
@@ -127,7 +128,13 @@ for subject in ['01', '02', '03', '04', '05']: #could also write all_subjects
     raw_od = mne.preprocessing.nirs.optical_density(raw_intensity)
     raw_od.plot(n_channels=len(raw_od.ch_names), duration=500,
                 show_scrollbars=False)
-    plt.savefig(f'preprocessed_data/subject_{subject}/optical_density.png')
+    #plt.savefig(f'preprocessed_data/subject_{subject}/optical_density.png')
+    img_od = raw_od.plot(n_channels=len(raw_od.ch_names), duration=500, show_scrollbars=False)
+
+    # Save figure
+    img_od.savefig(f'preprocessed_data/subject_{subject}/optical_density.png',
+                   dpi=300, bbox_inches='tight')
+    plt.close(img_od)
 
      # Calculate the scalp coupling index (SCI) and mark  #### NEED TO REFERENCE sci_limit SOMEWHERE BEFORE THIS
     # bad quality channels in the data
